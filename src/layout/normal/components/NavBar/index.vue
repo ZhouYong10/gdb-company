@@ -1,6 +1,8 @@
 <template>
   <div class="nav-bar">
-    <el-image :src="logo" fit="fill" />
+    <router-link to="/">
+      <el-image :src="logo" fit="fill" />
+    </router-link>
   </div>
 </template>
 

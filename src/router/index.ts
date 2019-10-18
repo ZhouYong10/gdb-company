@@ -19,7 +19,7 @@ const routes: RouteConfig[] = [
       {
         path: "",
         component: () =>
-          import(/* webpackChunkName: "about" */ "@/views/Home.vue")
+          import(/* webpackChunkName: "about" */ "@/views/home.vue")
       }
     ]
   },

@@ -7,7 +7,7 @@
       <el-aside width="200px">
         <side-bar />
       </el-aside>
-      <el-main>
+      <el-main class="main-content">
         <router-view />
       </el-main>
     </el-container>
@@ -35,5 +35,7 @@ export default class LayoutNormal extends Vue {}
 
 .el-header
   padding 0
-
+.main-content
+  overflow hidden
+  padding 6px
 </style>

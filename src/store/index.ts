@@ -61,6 +61,16 @@ export default new Vuex.Store({
           { name: "项目管理", url: "/systemManagement/projects" },
           { name: "系统用户", url: "/systemManagement/users" }
         ]
+      },
+      {
+        name: "测试Web页面",
+        icon: "",
+        items: [
+          { name: "页面一", url: "/webPage/web/product/index.html?domain=www.gongdibang.cn" },
+          { name: "页面一", url: "/webPage/web/product/future.html?domain=www.gongdibang.cn" },
+          { name: "页面二", url: "/webPage/?domain=www.baidu.com" },
+          { name: "页面四", url: "/webPage/hello/http" },
+        ]
       }
     ]
   },

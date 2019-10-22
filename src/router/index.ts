@@ -3,8 +3,14 @@ import VueRouter, { RouteConfig } from "vue-router";
 import views from "@/views";
 import layout from "@/layout";
 import Menu from "@/models/Menu";
+import { Component } from "vue-property-decorator";
 
 Vue.use(VueRouter);
+Component.registerHooks([
+  "beforeRouteEnter",
+  "beforeRouteUpdate",
+  "beforeRouteLeave"
+]);
 
 const routes: RouteConfig[] = [
   {
@@ -193,6 +199,18 @@ const routes: RouteConfig[] = [
           import(
             /* webpackChunkName: "about" */ "@/views/systemManagement/users/index.vue"
           )
+      }
+    ]
+  },
+  {
+    path: "/webPage",
+    name: "webPage",
+    component: layout.normal,
+    children: [
+      {
+        path: ":url*",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "@/views/webPage/index.vue")
       }
     ]
   }

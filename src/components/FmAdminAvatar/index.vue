@@ -1,30 +1,35 @@
 <template>
-    <div class="fm-admin-avatar">
-        <el-avatar icon="el-icon-user-solid"></el-avatar>
-        <el-dropdown>
-            <el-button type="primary">
-                更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>黄金糕</el-dropdown-item>
-                <el-dropdown-item>狮子头</el-dropdown-item>
-                <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                <el-dropdown-item>双皮奶</el-dropdown-item>
-                <el-dropdown-item>蚵仔煎</el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown>
-    </div>
+  <div class="fm-admin-avatar">
+    <el-avatar icon="el-icon-user-solid"></el-avatar>
+    <el-dropdown class="bar-menu" trigger="hover">
+      <span class="el-dropdown-link">
+        {{username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>退出登录</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Prop} from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
-    export default class FmAdminAvatar extends Vue {
-
-    };
+@Component({
+  name: "FmAdminAvatar"
+})
+export default class FmAdminAvatar extends Vue {
+  username: string = "用户名";
+}
 </script>
 
 <style scoped lang="stylus">
 .fm-admin-avatar
-    display inline-block
+  padding-right 20px
+  .bar-menu
+    padding-left 12px
+    color white
+    position relative
+    top -15px
+    cursor pointer
 </style>

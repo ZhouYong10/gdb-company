@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import views from "@/views";
 import layout from "@/layout";
-import Menu from "@/models/Menu";
 import { Component } from "vue-property-decorator";
+import MenuGroup from "@/models/MenuGroup";
+import {menuGroups} from "@/store";
 
 Vue.use(VueRouter);
 Component.registerHooks([
@@ -12,243 +12,73 @@ Component.registerHooks([
   "beforeRouteLeave"
 ]);
 
-const routes: RouteConfig[] = [
+const constRoutes: RouteConfig[] = [
   {
     path: "/",
-    redirect: "/home"
-  },
-  {
-    path: "/home",
-    name: "home",
     component: layout.normal,
     children: [
       {
         path: "",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "@/views/home.vue")
-      }
-    ]
-  },
-  {
-    path: "/dataBord",
-    name: "dataBord",
-    component: layout.normal,
-    children: [
-      {
-        path: "",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "@/views/dataBord/index.vue")
-      }
-    ]
-  },
-  {
-    path: "/projectOverview",
-    name: "projectOverview",
-    component: layout.normal,
-    children: [
-      {
-        path: "",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/projectOverview/index.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/laborManagement",
-    name: "laborManagement",
-    component: layout.normal,
-    children: [
-      {
-        path: "people",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/laborManagement/people/index.vue"
-          )
-      },
-      {
-        path: "attendance",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/laborManagement/attendance/index.vue"
-          )
-      },
-      {
-        path: "jobEvaluation",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/laborManagement/jobEvaluation/index.vue"
-          )
-      },
-      {
-        path: "staffQuery",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/laborManagement/staffQuery/index.vue"
-          )
-      },
-      {
-        path: "equipment",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/laborManagement/equipment/index.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/dustMonitoring",
-    name: "dustMonitoring",
-    component: layout.normal,
-    children: [
-      {
-        path: "realtimeData",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/dustMonitoring/realtimeData/index.vue"
-          )
-      },
-      {
-        path: "historyData",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/dustMonitoring/historyData/index.vue"
-          )
-      },
-      {
-        path: "equipment",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/dustMonitoring/equipment/index.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/videoSurveillance",
-    name: "videoSurveillance",
-    component: layout.normal,
-    children: [
-      {
-        path: "realtimeMonitoring",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/videoSurveillance/realtimeMonitoring/index.vue"
-          )
-      },
-      {
-        path: "historyPlayback",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/videoSurveillance/historyPlayback/index.vue"
-          )
-      },
-      {
-        path: "equipment",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/videoSurveillance/equipment/index.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/towerManagement",
-    name: "towerManagement",
-    component: layout.normal,
-    children: [
-      {
-        path: "equipment",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/towerManagement/equipment/index.vue"
-          )
-      },
-      {
-        path: "boxMonitoring",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/towerManagement/boxMonitoring/index.vue"
-          )
-      },
-      {
-        path: "boxEquipment",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/towerManagement/boxEquipment/index.vue"
-          )
-      }
-    ]
-  },
-  {
-    path: "/systemManagement",
-    name: "systemManagement",
-    component: layout.normal,
-    children: [
-      {
-        path: "projects",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/systemManagement/projects/index.vue"
-          )
-      },
-      {
-        path: "users",
-        component: () =>
-          import(
-            /* webpackChunkName: "about" */ "@/views/systemManagement/users/index.vue"
-          )
+        component: () => import("@/views/home.vue")
       }
     ]
   },
   {
     path: "/webPage",
-    name: "webPage",
     component: layout.normal,
     children: [
       {
         path: ":url*",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "@/views/webPage/index.vue")
+        component: () => import("@/views/webPage/index.vue"),
+        meta: { title: "页面丢失了" }
       }
     ]
+  },
+  {
+    path: "*",
+    component: () => import("@/views/fourOfour/index.vue")
   }
 ];
 
-const router = new VueRouter({
-  mode: "hash",
-  routes
-});
+const router = createRouter(menuGroups);
 
-/*function createRouter(menus: Array<Menu>) {
-  let routesConfig: RouteConfig[] = [];
-  menus.forEach(menu => {
-    let routeConfig = new (class implements RouteConfig {
-      path = menu.path;
-      name = menu.name;
-      meta = {title: menu.title};
-      component = layout.normal;
-      children = [];
-
-      // alias: string | string[];
-      // beforeEnter: NavigationGuard;
-      // caseSensitive: boolean;
-      // children: RouteConfig[];
-      // component: Component;
-      // components: Dictionary<Component>;
-      // meta: any;
-      // name: string;
-      // path: string;
-      // pathToRegexpOptions: PathToRegexpOptions;
-      // props: boolean | Object | RoutePropsFunction;
-      // redirect: RedirectOption;
-    });
-
-
+function createRouter(menuGroups: Array<MenuGroup>) {
+  let routeConfigs = constRoutes.slice();
+  routeConfigs.forEach(routeConfig => {
+    if (routeConfig.path === "/") {
+      routeConfig.children = routeConfig.children || [];
+      routeConfig.children = routeConfig.children.concat(parseToRoutes(menuGroups));
+    }
   });
-}*/
+  return new VueRouter({
+    mode: "hash",
+    routes: routeConfigs
+  });
+}
 
-// const router = createRouter([]);
+function parseToRoutes(menuGroups: Array<MenuGroup>) {
+  let routesConfig: RouteConfig[] = [];
+  menuGroups.forEach(menuGroup => {
+    let menus = menuGroup.menus;
+    menus.forEach(menu => {
+      if (menu.path.indexOf("webPage") === -1) {
+        let routeConfig = {
+          path: menu.path,
+          component: () => import(`@/views/${menu.path}/index.vue`),
+          children: [],
+          meta: { title: `${menuGroup.name}/${menu.name}` }
+        };
+        routesConfig.push(routeConfig);
+      }
+    });
+  });
+  return routesConfig;
+}
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter(menuGroups: Array<MenuGroup>) {
+  const newRouter = createRouter(menuGroups);
+  (router as any).matcher = (newRouter as any).matcher;
+}
 
 export default router;

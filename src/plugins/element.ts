@@ -1,3 +1,5 @@
+export const Velocity = require("velocity-animate/velocity.js");
+require("velocity-animate/velocity.ui.js");
 import Vue from "vue";
 import {
   Button,
@@ -13,16 +15,20 @@ import {
   Image,
   Autocomplete,
   Input,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
-    Row,
-    Col,
-    Select,
-    Option,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  Row,
+  Col,
+  Select,
+  Option,
+  Avatar,
+  Popover
 } from "element-ui";
 
+Vue.use(Popover);
 Vue.use(Option);
+Vue.use(Avatar);
 Vue.use(Select);
 Vue.use(Row);
 Vue.use(Col);

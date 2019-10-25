@@ -1,19 +1,18 @@
 <template>
   <div class="nav-bar">
-    <router-link to="/">
+    <router-link to="/" class="gdb-logo">
       <el-image :src="logo" fit="fill" />
     </router-link>
-    <fm-cascade-select/>
-<!--    <fm-admin-avatar/>-->
+    <fm-cascade-select class="company-site-select"/>
+    <fm-admin-avatar />
   </div>
 </template>
 
 <script>
-import logo from "@/assets/images/gdb_web_logo.png";
+import logo from "./gdb_web_logo.png";
 import { Vue, Component } from "vue-property-decorator";
 import FmCascadeSelect from "@/components/FmCascadeSelector/index.vue";
 import FmAdminAvatar from "@/components/FmAdminAvatar/index";
-
 
 @Component({
   name: "NavBar",
@@ -31,12 +30,17 @@ export default class NavBar extends Vue {
 .nav-bar
   height 100%
   background-color #1EA5FF
+  display flex
+  justify-content space-between
+  align-items center
+  .company-site-select
+    flex-grow 2
 
-  .el-image
-    position relative
-    top 18px
-    padding-left 32px
-    padding-right 32px
+.gdb-logo
+  min-width 200px
+  text-align center
+
+
 
 
 

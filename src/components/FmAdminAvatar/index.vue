@@ -1,11 +1,12 @@
 <template>
   <div class="fm-admin-avatar">
     <el-avatar icon="el-icon-user-solid"></el-avatar>
-    <el-dropdown class="bar-menu" trigger="hover">
+    <el-dropdown class="bar-menu" trigger="click">
       <span class="el-dropdown-link">
         {{username}}<i class="el-icon-caret-bottom el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>账户信息</el-dropdown-item>
         <el-dropdown-item>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -26,6 +27,7 @@ export default class FmAdminAvatar extends Vue {
 <style scoped lang="stylus">
 .fm-admin-avatar
   padding-right 20px
+  min-width 117px
   .bar-menu
     padding-left 12px
     color white

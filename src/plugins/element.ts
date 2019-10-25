@@ -23,9 +23,13 @@ import {
   Select,
   Option,
   Avatar,
-  Popover
+  Popover,
+    Breadcrumb,
+    BreadcrumbItem,
 } from "element-ui";
 
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
 Vue.use(Popover);
 Vue.use(Option);
 Vue.use(Avatar);

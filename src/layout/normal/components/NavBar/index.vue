@@ -1,11 +1,11 @@
 <template>
-  <div class="nav-bar">
+  <el-header height="70px" class="nav-bar">
     <router-link to="/" class="gdb-logo">
       <el-image :src="logo" fit="fill" />
     </router-link>
     <fm-cascade-select class="company-site-select"/>
     <fm-admin-avatar />
-  </div>
+  </el-header>
 </template>
 
 <script>
@@ -28,6 +28,7 @@ export default class NavBar extends Vue {
 
 <style scoped lang="stylus">
 .nav-bar
+  padding 0
   height 100%
   background-color #1EA5FF
   display flex
@@ -35,13 +36,7 @@ export default class NavBar extends Vue {
   align-items center
   .company-site-select
     flex-grow 2
-
 .gdb-logo
   min-width 200px
   text-align center
-
-
-
-
-
 </style>

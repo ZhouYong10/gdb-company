@@ -19,7 +19,8 @@ const constRoutes: RouteConfig[] = [
     children: [
       {
         path: "",
-        component: () => import("@/views/home.vue")
+        component: () => import("@/views/home.vue"),
+        meta: {title: "首页"}
       }
     ]
   },

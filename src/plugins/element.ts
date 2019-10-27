@@ -24,10 +24,14 @@ import {
   Option,
   Avatar,
   Popover,
-    Breadcrumb,
-    BreadcrumbItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  Progress,
+  ButtonGroup
 } from "element-ui";
 
+Vue.use(ButtonGroup);
+Vue.use(Progress);
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
 Vue.use(Popover);

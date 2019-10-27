@@ -1,17 +1,13 @@
 <template>
-  <el-container class="global-container">
-    <el-header height="70px">
-      <nav-bar />
-    </el-header>
+  <el-container class="global-container" direction="vertical">
+    <nav-bar />
     <el-container class="main-container">
       <el-aside width="200px" class="scroll-bar">
         <side-bar />
       </el-aside>
       <el-main class="main-content">
         <fm-breadcrumb :items="items"/>
-        <el-main class="content-page">
-          <router-view />
-        </el-main>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>
@@ -74,8 +70,7 @@ export default class LayoutNormal extends Vue {
   overflow-y auto
   border-right 1px solid #E6E6E6
   background #F2F2F2
-.el-header
-  padding 0
+
 .main-content
   background #F9F9F9
   height 100%

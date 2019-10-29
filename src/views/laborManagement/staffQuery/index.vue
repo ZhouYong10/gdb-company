@@ -1,11 +1,14 @@
 <template>
-    <h1>劳务管理 / 人员查询</h1>
+    <fm-radio-list />
 </template>
 
 <script>
     import { Vue, Component } from "vue-property-decorator";
+    import FmRadioList from "../../../components/FmRadioList/index";
 
-    @Component({})
+    @Component({
+        components: {FmRadioList}
+    })
     export default class About extends Vue {}
 </script>
 

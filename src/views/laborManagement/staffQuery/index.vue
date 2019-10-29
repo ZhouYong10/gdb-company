@@ -1,5 +1,5 @@
 <template>
-    <fm-radio-list />
+    <fm-radio-list :title="radioListTitle" :items="radioItems"/>
 </template>
 
 <script>
@@ -9,7 +9,13 @@
     @Component({
         components: {FmRadioList}
     })
-    export default class About extends Vue {}
+    export default class About extends Vue {
+        radioListTitle = "工种";
+        radioItems = [
+            {name: "土方", id: "1"},
+            {name: "砖工", id: "2"}
+        ]
+    }
 </script>
 
 <style scoped>

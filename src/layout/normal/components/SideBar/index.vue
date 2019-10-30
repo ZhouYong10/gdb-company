@@ -31,12 +31,13 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import {menuGroups} from "@/store";
 @Component({
   components: {}
 })
 export default class SideBar extends Vue {
   get menuGroups() {
-    return this.$store.state.menus;
+    return menuGroups;
   }
 
   get activeId() {

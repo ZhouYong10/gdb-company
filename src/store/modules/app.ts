@@ -1,35 +1,76 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
+import {
+  Action,
+  getModule,
+  Module,
+  Mutation,
+  VuexModule
+} from "vuex-module-decorators";
 import { ClientManager } from "$api_model/ClientManager";
-import { RequestGetMenu } from "$api_bean/RequestGetMenu";
 import store from "@/store";
-import axios from "@/api";
-import { RU } from "$api_model/RU";
-import {uiSmLoginResponese} from "$api_bean/uiSmLoginResponese";
-import {SiteObj} from "$api_model/SiteObj";
-import {SdjsPerson} from "$api_bean/SdjsPerson";
+import { uiSmLoginResponese } from "$api_bean/uiSmLoginResponese";
+import { SdjsPerson } from "$api_bean/SdjsPerson";
+import { SdjsBuildSite } from "$api_bean/SdjsBuildSite";
 
 const clientManager = ClientManager.getInstance();
 
 export interface AppState {
-  currentCompany: uiSmLoginResponese
-  currentSite: SiteObj
-  companyList: uiSmLoginResponese[]
-  siteList: SiteObj[]
-  person: SdjsPerson
-  asideMenu: Array<any>
+  currentCompany: uiSmLoginResponese;
+  currentSite: SdjsBuildSite;
+  companyList: uiSmLoginResponese[];
+  siteList: SdjsBuildSite[];
+  person: SdjsPerson;
+  asideMenu: Array<any>;
 }
 
 @Module({ dynamic: true, store, name: "app" })
-class App extends VuexModule implements AppState{
+class App extends VuexModule implements AppState {
   currentCompany = clientManager.getCurCompany();
-  currentSite = clientManager.getCurSiteObj();
+  currentSite = this.currentCompany.getSites()[0];
   companyList = clientManager.getCompanys();
-  siteList = clientManager.getSites();
+  siteList = this.currentCompany.getSites();
   person = clientManager.getPerson();
-  asideMenu = [];
+  asideMenu = null;
+
   @Mutation
-  changeAsideMenu(asideMenu) {
+  private CHANGE_CURRENT_COMPANY(comp) {
+    this.currentCompany = comp;
+  }
+
+  @Mutation
+  private CHANGE_CURRENT_SITE(site) {
+    this.currentSite = site;
+  }
+
+  @Mutation
+  private CHANGE_COMPANY_LIST(comps) {
+    this.companyList = comps;
+  }
+
+  @Mutation
+  private CHANGE_SITE_LIST(sites) {
+    this.siteList = sites;
+  }
+
+  @Mutation
+  private CHANGE_PERSON(person) {
+    this.person = person;
+  }
+
+  @Mutation
+  private CHANGE_ASIDE_MENU(asideMenu) {
     this.asideMenu = asideMenu;
+  }
+
+  @Action
+  changeCurrentCompany(com) {
+    this.CHANGE_CURRENT_COMPANY(com);
+    this.CHANGE_SITE_LIST(com.getSites());
+    this.CHANGE_CURRENT_SITE(com.getSites()[0]);
+  }
+
+  @Action
+  changeCurrentSite(site) {
+    this.CHANGE_CURRENT_SITE(site);
   }
 
   // @Action({ commit: "changeAsideMenu" })

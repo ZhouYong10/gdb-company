@@ -76,7 +76,6 @@ export default class extends Vue {
   list-style none
   margin-bottom 0
   padding-left 0
-  padding-right 8px
   .list-item
     line-height 2em
     cursor pointer

@@ -22,7 +22,7 @@
               item.getCompanyTreeNode().getName() ===
               selectedCom.getCompanyTreeNode().getName()
           }"
-          style="margin: 0; padding-left: 8px"
+          style="margin: 0; padding:0 8px"
         >
           {{ item.getCompanyTreeNode().getName() }}
         </p>
@@ -59,7 +59,7 @@
           :class="{
             'list-item-active': item.getName() === selectedSite.getName()
           }"
-          style="margin: 0; padding-left: 8px"
+          style="margin: 0; padding:0 8px"
         >
           {{ item.getName() }}
         </p>
@@ -91,16 +91,22 @@ console.log(AppModule.currentCompany, " currentCompany=====================");
   }
 })
 export default class FmCascadeSelect extends Vue {
-  companys: uiSmLoginResponese[] = AppModule.companyList;
+  get companys() {
+    return AppModule.companyList;
+  }
   get companySites() {
-    return this.selectedCom.getSites();
+    return AppModule.siteList;
+  }
+  get selectedCom() {
+    return AppModule.currentCompany;
+  }
+  get selectedSite() {
+    return AppModule.currentSite;
   }
   comDis: boolean = false;
   siteDis: boolean = false;
   visibleCom: boolean = false;
   visibleSite: boolean = false;
-  selectedCom: uiSmLoginResponese = AppModule.currentCompany;
-  selectedSite: SdjsBuildSite = this.selectedCom.getSites()[0];
 
   searchCompany(item: uiSmLoginResponese, val: string) {
     return val.trim() === ""
@@ -122,13 +128,12 @@ export default class FmCascadeSelect extends Vue {
   }
 
   selectCom(val: uiSmLoginResponese) {
-    this.selectedCom = val;
-    this.selectedSite = val.getSites()[0];
+    AppModule.changeCurrentCompany(val);
     this.visibleCom = false;
   }
 
   selectSite(val: SdjsBuildSite) {
-    this.selectedSite = val;
+    AppModule.changeCurrentSite(val);
     this.visibleSite = false;
   }
 

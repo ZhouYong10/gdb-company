@@ -19,7 +19,7 @@ export default class FmMoreDetails extends Vue {
 .more-details
     color #a0a5a5
     text-decoration: none
-    font-size 15px
+    font-size 12px
     &:hover
         color #1EA5FF
         cursor pointer

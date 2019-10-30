@@ -3,7 +3,7 @@
     <router-link to="/" class="gdb-logo">
       <el-image :src="logo" fit="fill" />
     </router-link>
-    <fm-cascade-select class="company-site-select"/>
+    <fm-cascade-select class="company-site-select" />
     <fm-admin-avatar />
   </el-header>
 </template>

@@ -3,16 +3,37 @@
     <el-popover
       @show="companyShow"
       @hide="companyHide"
+      @after-leave="selectedComDone"
       placement="bottom"
       :disabled="comDis"
       v-model="visibleCom"
-      trigger="click">
-      <fm-search-list :datas="options" :filtering-policy="search" :chooseItem="chooseItem" @selected="selectCom" v-slot="{item}">
-        {{item.label}}
+      trigger="click"
+    >
+      <fm-search-list
+        ref="companyList"
+        :datas="companys"
+        :filtering-policy="searchCompany"
+        @selected="selectCom"
+        v-slot="{ item }"
+      >
+        <p
+          :class="{
+            'list-item-active':
+              item.getCompanyTreeNode().getName() ===
+              selectedCom.getCompanyTreeNode().getName()
+          }"
+          style="margin: 0; padding-left: 8px"
+        >
+          {{ item.getCompanyTreeNode().getName() }}
+        </p>
       </fm-search-list>
       <span class="show-info" slot="reference">
-        {{selectedCom}}
-        <i class="el-icon-caret-bottom show-icon" ref="companyIcon" v-if="!comDis"></i>
+        {{ selectedCom.getCompanyTreeNode().getName() }}
+        <i
+          class="el-icon-caret-bottom show-icon"
+          ref="companyIcon"
+          v-if="!comDis"
+        ></i>
       </span>
     </el-popover>
     <span class="arrow-right">
@@ -21,16 +42,35 @@
     <el-popover
       @show="siteShow"
       @hide="siteHide"
+      @after-leave="selectedSiteDone"
       placement="bottom"
       :disabled="siteDis"
       v-model="visibleSite"
-      trigger="click">
-      <fm-search-list :datas="options" :filtering-policy="search" :chooseItem="chooseItem" @selected="selectSite" v-slot="{item}">
-        {{item.label}}
+      trigger="click"
+    >
+      <fm-search-list
+        ref="siteList"
+        :datas="companySites"
+        :filtering-policy="searchSite"
+        @selected="selectSite"
+        v-slot="{ item }"
+      >
+        <p
+          :class="{
+            'list-item-active': item.getName() === selectedSite.getName()
+          }"
+          style="margin: 0; padding-left: 8px"
+        >
+          {{ item.getName() }}
+        </p>
       </fm-search-list>
       <span class="show-info" slot="reference">
-        {{selectedSite}}
-        <i class="el-icon-caret-bottom show-icon" ref="siteIcon" v-if="!siteDis"></i>
+        {{ selectedSite.getName() }}
+        <i
+          class="el-icon-caret-bottom show-icon"
+          ref="siteIcon"
+          v-if="!siteDis"
+        ></i>
       </span>
     </el-popover>
   </div>
@@ -38,8 +78,12 @@
 
 <script lang="ts">
 import FmSearchList from "@/components/FmSearchList/index.vue";
-import { Vue, Component, Model } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
+import { AppModule } from "@/store/modules/app";
+import { uiSmLoginResponese } from "$api_bean/uiSmLoginResponese";
+import { SdjsBuildSite } from "$api_bean/SdjsBuildSite";
 
+console.log(AppModule.currentCompany, " currentCompany=====================");
 @Component({
   name: "FmCascadeSelect",
   components: {
@@ -47,105 +91,68 @@ import { Vue, Component, Model } from "vue-property-decorator";
   }
 })
 export default class FmCascadeSelect extends Vue {
-  options: Array<any> = [
-    {
-      value: "选项1",
-      label: "黄金糕"
-    },
-    {
-      value: "选项2",
-      label: "双皮奶"
-    },
-    {
-      value: "选项3",
-      label: "蚵仔煎"
-    },
-    {
-      value: "选项4",
-      label: "龙须面"
-    },{
-      value: "选项41",
-      label: "龙须面"
-    },{
-      value: "选项42",
-      label: "龙须面"
-    },{
-      value: "选项43",
-      label: "龙须面"
-    },{
-      value: "选项44",
-      label: "龙须面"
-    },{
-      value: "选项45",
-      label: "龙须面"
-    },{
-      value: "选项46",
-      label: "龙须面"
-    },{
-      value: "选项74",
-      label: "龙须面"
-    },{
-      value: "选项84",
-      label: "龙须面"
-    },{
-      value: "选项49",
-      label: "龙须面"
-    },{
-      value: "选项40",
-      label: "龙须面"
-    },{
-      value: "选项14",
-      label: "龙须面"
-    },{
-      value: "选项24",
-      label: "龙须面"
-    },
-    {
-      value: "选项5",
-      label: "天府新区消防治安及气象综合服务中心项目（交警七分局、正兴派出所）"
-    }
-  ];
+  companys: uiSmLoginResponese[] = AppModule.companyList;
+  get companySites() {
+    return this.selectedCom.getSites();
+  }
   comDis: boolean = false;
-  siteDis:boolean = false;
+  siteDis: boolean = false;
   visibleCom: boolean = false;
   visibleSite: boolean = false;
-  selectedCom:string = "当前选择的公司";
-  selectedSite:string = "当前选择的工地";
+  selectedCom: uiSmLoginResponese = AppModule.currentCompany;
+  selectedSite: SdjsBuildSite = this.selectedCom.getSites()[0];
 
-  search(item: any, val: string) {
+  searchCompany(item: uiSmLoginResponese, val: string) {
     return val.trim() === ""
       ? true
-      : item.label.toLowerCase().indexOf(val.toLowerCase()) !== -1;
+      : item
+          .getCompanyTreeNode()
+          .getName()
+          .toLowerCase()
+          .indexOf(val.toLowerCase()) !== -1;
   }
 
-  chooseItem(el: HTMLElement) {
-    return el.textContent;
+  searchSite(item: SdjsBuildSite, val: string) {
+    return val.trim() === ""
+      ? true
+      : item
+          .getName()
+          .toLowerCase()
+          .indexOf(val.toLowerCase()) !== -1;
   }
 
-  selectCom(val: string) {
+  selectCom(val: uiSmLoginResponese) {
     this.selectedCom = val;
+    this.selectedSite = val.getSites()[0];
     this.visibleCom = false;
   }
 
-  selectSite(val: string) {
+  selectSite(val: SdjsBuildSite) {
     this.selectedSite = val;
     this.visibleSite = false;
   }
 
+  selectedComDone() {
+    (this.$refs.companyList as any).clear();
+  }
+
+  selectedSiteDone() {
+    (this.$refs.siteList as any).clear();
+  }
   companyShow() {
-    (this.$refs.companyIcon as HTMLElement).classList.add('rotate-up');
+    (this.$refs.companyIcon as HTMLElement).classList.add("rotate-up");
   }
 
   companyHide() {
-    (this.$refs.companyIcon as HTMLElement).classList.remove('rotate-up');
+    (this.$refs.companyIcon as HTMLElement).classList.remove("rotate-up");
   }
 
   siteShow() {
-    (this.$refs.siteIcon as HTMLElement).classList.add('rotate-up');
+    (this.$refs.siteIcon as HTMLElement).classList.add("rotate-up");
   }
 
   siteHide() {
-    (this.$refs.siteIcon as HTMLElement).classList.remove('rotate-up');
+    (this.$refs.siteIcon as HTMLElement).classList.remove("rotate-up");
   }
 }
 </script>
@@ -165,4 +172,8 @@ export default class FmCascadeSelect extends Vue {
   bottom -2px
 .rotate-up
   transform rotate(180deg)
+.list-item-active
+  color #fff
+  background #1EA5FF
+  
 </style>

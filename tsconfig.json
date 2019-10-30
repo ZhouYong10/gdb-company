@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+//    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -17,6 +17,18 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "$api_bean/*": [
+        "../00.api/bean/*"
+      ],
+      "$api_model/*": [
+        "../00.api/model/*"
+      ],
+      "$api_util/*": [
+        "../00.api/util/*"
+      ],
+      "$api_component/*": [
+        "../00.api/component/*"
       ]
     },
     "lib": [

@@ -3,7 +3,8 @@ import VueRouter, { RouteConfig } from "vue-router";
 import layout from "@/layout";
 import { Component } from "vue-property-decorator";
 import MenuGroup from "@/models/MenuGroup";
-import {menuGroups} from "@/store";
+import { menuGroups } from "@/store";
+import laborManagementRoutes from "./laborManagement";
 
 Vue.use(VueRouter);
 Component.registerHooks([
@@ -20,7 +21,7 @@ const constRoutes: RouteConfig[] = [
       {
         path: "",
         component: () => import("@/views/home.vue"),
-        meta: {title: "首页"}
+        meta: { title: "首页" }
       }
     ]
   },
@@ -48,7 +49,10 @@ function createRouter(menuGroups: Array<MenuGroup>) {
   routeConfigs.forEach(routeConfig => {
     if (routeConfig.path === "/") {
       routeConfig.children = routeConfig.children || [];
-      routeConfig.children = routeConfig.children.concat(parseToRoutes(menuGroups));
+      routeConfig.children = routeConfig.children.concat(
+        parseToRoutes(menuGroups),
+        laborManagementRoutes
+      );
     }
   });
   return new VueRouter({
@@ -66,8 +70,7 @@ function parseToRoutes(menuGroups: Array<MenuGroup>) {
         let routeConfig = {
           path: menu.path,
           component: () => import(`@/views/${menu.path}/index.vue`),
-          children: [],
-          meta: { title: `${menuGroup.name}/${menu.name}` }
+          meta: { title: menu.name }
         };
         routesConfig.push(routeConfig);
       }

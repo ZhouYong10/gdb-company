@@ -27,9 +27,17 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Progress,
-  ButtonGroup
+  ButtonGroup,
+  Table,
+  TableColumn,
+  RadioGroup,
+  RadioButton
 } from "element-ui";
 
+Vue.use(RadioGroup);
+Vue.use(RadioButton);
+Vue.use(Table);
+Vue.use(TableColumn);
 Vue.use(ButtonGroup);
 Vue.use(Progress);
 Vue.use(Breadcrumb);

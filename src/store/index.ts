@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import {AppState} from "@/store/modules/app";
 Vue.use(Vuex);
 
 export const menuGroups = [
@@ -224,11 +224,9 @@ export const menuGroups = [
   }
 ];
 
-export default new Vuex.Store({
-  state: {
-    menus: menuGroups
-  },
-  mutations: {},
-  actions: {},
-  modules: {}
-});
+
+interface RootState {
+  app: AppState
+}
+
+export default new Vuex.Store<RootState>({});

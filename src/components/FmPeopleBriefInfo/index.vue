@@ -57,5 +57,4 @@ export default class FmPeopleBriefInfo extends Vue {
             font-size 16px
             color #000
             padding-right 6px
-
 </style>

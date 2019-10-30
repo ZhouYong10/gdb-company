@@ -1,5 +1,5 @@
 <template>
-  <div class="search-list" @click.capture="choose">
+  <div class="search-list">
     <el-input clearable="" placeholder="请输入搜索内容" v-model="search">
       <i slot="prefix" class="el-input__icon el-icon-search"></i>
     </el-input>
@@ -12,7 +12,7 @@
       @enter="enter"
       @leave="leave"
     >
-      <li class="list-item" v-for="(item, index) in computedDatas" :key="index">
+      <li class="list-item" v-for="(item, index) in computedDatas" :key="index" @click.stop="selected(item)">
         <slot :item="item"></slot>
       </li>
     </transition-group>
@@ -32,7 +32,6 @@ export default class extends Vue {
     item: any,
     search: string
   ) => boolean;
-  @Prop({ required: true }) readonly chooseItem!: (el: HTMLElement) => any;
   search: string = "";
 
   get computedDatas() {
@@ -41,16 +40,12 @@ export default class extends Vue {
     });
   }
 
-  choose(e: Event) {
-    let el: any = e.target;
-    if (el && el.tagName.toLowerCase() === "li") {
-      this.selected(this.chooseItem(el));
-      this.search = "";
-    }
-  }
-
   @Emit()
-  selected(val: string) {}
+  selected(val: any) {}
+
+  clear() {
+    this.search = "";
+  }
 
   beforeEnter(el: HTMLElement) {
     el.style.opacity = "0";
@@ -81,9 +76,9 @@ export default class extends Vue {
   list-style none
   margin-bottom 0
   padding-left 0
+  padding-right 8px
   .list-item
     line-height 2em
-    padding-left 8px
     cursor pointer
     &:hover
       background: #EAEAEA

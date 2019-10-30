@@ -2,10 +2,15 @@
   <el-menu
     :default-active="activeId"
     class="side-bar-menu"
+    background-color="#F2F2F2"
     unique-opened
     active-text-color="#fff"
   >
-    <el-submenu v-for="menuGroup in menuGroups" :index="menuGroup.id + ''" :key="menuGroup.id">
+    <el-submenu
+      v-for="menuGroup in menuGroups"
+      :index="menuGroup.id + ''"
+      :key="menuGroup.id"
+    >
       <template slot="title">
         <i :class="menuGroup.icon"></i>
         <span>{{ menuGroup.name }}</span>
@@ -52,10 +57,8 @@ export default class SideBar extends Vue {
 <style scoped lang="stylus">
 .side-bar-menu
   border none
-  background #F2F2F2
   li
     padding 0!important
-    background #F2F2F2
   .is-active .router-link-active
     color #1EA5FF
     background white
@@ -68,8 +71,4 @@ export default class SideBar extends Vue {
     color black
     &:hover
       color #1EA5FF
-
-
-
-
 </style>

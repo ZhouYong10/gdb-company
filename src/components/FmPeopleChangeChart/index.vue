@@ -3,15 +3,15 @@
     <el-col>
       <header>
         <h3 class="title">人员变动统计</h3>
-        <fm-more-details :path="'#'" />
+        <fm-more-details path="/laborManagement/people/changeDetails" />
       </header>
     </el-col>
     <el-col class="choose-date">
-      <el-button-group>
-        <el-button size="mini">今日</el-button>
-        <el-button size="mini">近一周</el-button>
-        <el-button size="mini">近一月</el-button>
-      </el-button-group>
+      <el-radio-group v-model="dateScope" size="mini">
+        <el-radio-button label="today">今日</el-radio-button>
+        <el-radio-button label="week">近一周</el-radio-button>
+        <el-radio-button label="month">近一月</el-radio-button>
+      </el-radio-group>
     </el-col>
     <el-col>
       <v-chart
@@ -40,6 +40,7 @@ import FmMoreDetails from "@/components/FmMoreDetails/index.vue";
   }
 })
 export default class FmPeopleChangeChar extends Vue {
+  dateScope = "today";
   get option() {
     return {
       tooltip: {

@@ -6,7 +6,7 @@
       </h3>
     </el-col>
     <el-col>
-      <seamless-scroll class="scroll-list" :data="peoples" >
+      <seamless-scroll class="scroll-list" :data="peoples">
         <fm-people-brief-info
           v-for="(people, index) in peoples"
           :key="index"

@@ -56,7 +56,7 @@ export const menuGroups = [
       },
       {
         id: "3-3",
-        name: "工种分析",
+        name: "人员分析",
         accessPoint: "",
         icon: "",
         path: "laborManagement/jobEvaluation"
@@ -166,7 +166,7 @@ export const menuGroups = [
   },
   {
     id: "7",
-    name: "系统管理",
+    name: "公司管理",
     accessPoint: "",
     icon: "el-icon-s-tools",
     menus: [

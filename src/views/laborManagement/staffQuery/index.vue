@@ -1,12 +1,18 @@
 <template>
-  <h1>劳务管理 / 人员查询</h1>
+  <fm-radio-list :title="radioListTitle" :items="radioItems" />
 </template>
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import FmRadioList from "@/components/FmRadioList/index.vue";
 
-@Component({})
-export default class About extends Vue {}
+@Component({
+  components: { FmRadioList }
+})
+export default class About extends Vue {
+  radioListTitle = "工种";
+  radioItems = [{ name: "土方", id: "1" }, { name: "砖工", id: "2" }];
+}
 </script>
 
 <style scoped></style>

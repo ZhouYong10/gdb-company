@@ -32,10 +32,12 @@ import {
   TableColumn,
   RadioGroup,
   RadioButton,
+  Radio,
   InputNumber,
 } from "element-ui";
 
 Vue.use(InputNumber);
+Vue.use(Radio);
 Vue.use(RadioGroup);
 Vue.use(RadioButton);
 Vue.use(Table);

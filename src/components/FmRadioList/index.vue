@@ -37,7 +37,7 @@ export default class FmRadioList extends Vue {
   .title
     line-height 28px
     margin 0
-    padding 0 32px 0 12px
+    padding 0 29px 0 12px
     font-size 1em
     font-weight 400
     min-width 42px

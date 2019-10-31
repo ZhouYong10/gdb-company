@@ -1,27 +1,28 @@
 <template>
-  <el-row class="people-change-chart">
-    <el-col>
-      <header>
-        <h3 class="title">人员变动统计</h3>
-        <fm-more-details path="/laborManagement/people/changeDetails" />
-      </header>
-    </el-col>
-    <el-col class="choose-date">
-      <el-radio-group v-model="dateScope" size="mini">
-        <el-radio-button label="today">今日</el-radio-button>
-        <el-radio-button label="week">近一周</el-radio-button>
-        <el-radio-button label="month">近一月</el-radio-button>
-      </el-radio-group>
-    </el-col>
-    <el-col>
-      <v-chart
-        class="chart"
-        :initOptions="{ width: 'auto', height: 'auto' }"
-        :options="option"
-        :autoresize="true"
-      />
-    </el-col>
-  </el-row>
+  <fm-title-container class="fm-people-change-chart" title="人员变动统计">
+    <template v-slot:header>
+      <fm-more-details path="/laborManagement/people/changeDetails" />
+    </template>
+    <template v-slot:content>
+      <el-row>
+        <el-col class="choose-date">
+          <el-radio-group v-model="dateScope" size="mini">
+            <el-radio-button label="today">今日</el-radio-button>
+            <el-radio-button label="week">近一周</el-radio-button>
+            <el-radio-button label="month">近一月</el-radio-button>
+          </el-radio-group>
+        </el-col>
+        <el-col>
+          <v-chart
+            class="chart"
+            :initOptions="{ width: 'auto', height: 'auto' }"
+            :options="option"
+            :autoresize="true"
+          />
+        </el-col>
+      </el-row>
+    </template>
+  </fm-title-container>
 </template>
 
 <script lang="ts">
@@ -32,9 +33,11 @@ import "echarts/lib/component/tooltip";
 import "echarts/lib/component/legend";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import FmMoreDetails from "@/components/FmMoreDetails/index.vue";
+import FmTitleContainer from "@/components/FmTitleContainer/index.vue";
 @Component({
   name: "FmPeopleChangeChar",
   components: {
+    FmTitleContainer,
     FmMoreDetails,
     "v-chart": Echarts
   }
@@ -170,15 +173,8 @@ export default class FmPeopleChangeChar extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.people-change-chart
+.fm-people-change-chart
     height 100%
-    header
-        display flex
-        justify-content space-between
-        padding 4px 4px 10px
-        .title
-            margin 0
-            font-size 1em
     .choose-date
         display flex
         justify-content flex-end

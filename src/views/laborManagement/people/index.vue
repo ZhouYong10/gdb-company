@@ -4,20 +4,19 @@
     <fm-breadcrumb :items="breadNavs" />
     <el-main class="page-content scroll-bar">
       <!--人员录入概况-->
-      <el-row class="general-info-box">
-        <el-col>
+      <fm-title-container class="general-info-box" title="">
+        <template v-slot:header>
           <fm-more-details class="more-details" path="/laborManagement/people/briefDetails" />
-        </el-col>
-        <el-col :span="24">
+        </template>
+        <template v-slot:content>
           <el-row class="general-situation-box" type="flex" align="middle">
             <el-col :span="6">
-              <div class="total-num">
-                <h2>人员概况</h2>
-                <div>
+              <fm-title-container class="total-num" title="人员概况">
+                <template v-slot:content>
                   <p class="num"><strong>{{totalNum}}</strong></p>
                   <span class="desc">劳务总人数</span>
-                </div>
-              </div>
+                </template>
+              </fm-title-container>
             </el-col>
             <el-col :span="6">
               <fm-percent-box
@@ -44,30 +43,29 @@
               />
             </el-col>
           </el-row>
-        </el-col>
-      </el-row>
+        </template>
+      </fm-title-container>
       <!--人员变动统计-->
       <el-row class="people-change-info">
+        <!--人员变动统计 Echarts 图表-->
         <el-col :span="12">
           <fm-people-change-chart class="chart" />
         </el-col>
+        <!--近一周人员动态滚动列表-->
         <el-col :span="12">
           <fm-people-change-week
             class="scroll-list"
-            :title="pcw.title"
-            :title-left="pcw.titleLeft"
+            title="近一周人员动态"
+            title-left="进场人员"
             :datas-left="pcw.datasLeft"
-            :title-right="pcw.titleRight"
+            title-right="出场人员"
             :datas-right="pcw.datasRight"
           />
         </el-col>
       </el-row>
       <!--人员活跃度统计-->
-      <div class="people-account">
-        <div class="header">
-          <h1 class="title">人员活跃度统计</h1>
-        </div>
-        <div class="account-table">
+      <fm-title-container class="people-account" title="人员活跃度统计">
+        <template v-slot:content>
           <el-table :data="accountTable" stripe style="width: 100%" @row-click="selectRow">
             <el-table-column prop="site" label="项目"> </el-table-column>
             <el-table-column prop="total" label="总人数"> </el-table-column>
@@ -79,8 +77,8 @@
             <el-table-column prop="activeRate" label="近10日人员平均活跃率">
             </el-table-column>
           </el-table>
-        </div>
-      </div>
+        </template>
+      </fm-title-container>
     </el-main>
   </div>
 </template>
@@ -92,9 +90,11 @@ import FmPeopleChangeChart from "@/components/FmPeopleChangeChart/index.vue";
 import FmPeopleChangeWeek from "@/components/FmPeopleChangeWeek/index.vue";
 import FmMoreDetails from "@/components/FmMoreDetails/index.vue";
 import FmBreadcrumb from "@/components/FmBreadcrumb/index.vue";
+import FmTitleContainer from "@/components/FmTitleContainer/index.vue";
 
 @Component({
   components: {
+    FmTitleContainer,
     FmBreadcrumb,
     FmMoreDetails,
     FmPercentBox,
@@ -134,8 +134,6 @@ export default class extends Vue {
   /*人员变动统计*/
   //近一周人员动态
   pcw = {
-    title: "近一周人员动态",
-    titleLeft: "进场人员",
     datasLeft: [
       {
         avatarUrl: "/some/where",
@@ -180,7 +178,6 @@ export default class extends Vue {
         dateTime: "日期时间"
       }
     ],
-    titleRight: "出场人员",
     datasRight: [
       {
         avatarUrl: "/some/where",
@@ -280,50 +277,31 @@ export default class extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.general-info-box
-  background #fff
-  padding 8px
-  border 1px solid #d2d9d9
-  .more-details
-    float right
-  .general-situation-box
-    padding 8px
-  .total-num
-    height 140px
-    h2
-        font-size 1em
-        margin 0 0 8px 6px
-    .num
-        margin 26px 0 0
-        font-size 3em
-        color #1EA5FF
-    .desc
-        font-size 0.7em
-        color #a0a5a5
-  .total-num, .entering-type, .faces-type, .education-type
-    padding-right 16px
-    margin-right 16px
-    border-right 1px solid #a0a5a5
-  .education-type
-    border none
+.total-num
+  border none
+  box-shadow none
+  height 119px
+  .num
+    margin 0
+    padding-top 12px
+    font-size 3.2em
+    color #1EA5FF
+  .desc
+    font-size 0.7em
+    margin-left 8px
+    color #a0a5a5
+.total-num, .entering-type, .faces-type, .education-type
+  padding-right 16px
+  margin-right 16px
+  border-right 1px solid #a0a5a5
+  border-radius 0
+.education-type
+  border none
 .people-change-info
   margin-top 10px
-  .chart, .scroll-list
-    border 1px solid #d2d9d9
-    background #fff
-    padding 8px
   .chart
     margin-right 12px
-    padding-bottom 0
+    padding-bottom 2px
 .people-account
   margin-top 10px
-  border 1px solid #d2d9d9
-  background #ffffff
-  padding 8px
-  .header
-    display flex
-    justify-content space-between
-    .title
-      margin 0
-      font-size 1em
 </style>

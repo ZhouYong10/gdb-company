@@ -30,9 +30,9 @@ export default class FmPercentBar extends Vue {
 
 <style scoped lang="stylus">
     .fm-percent-bar
-        padding 6px
+        padding 4px
     .text-box
-        margin-right 10px
+        margin-right 12px
         border-right 1px solid #a0a5a5
 .percentage
     margin 3px

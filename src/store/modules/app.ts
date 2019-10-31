@@ -7,9 +7,9 @@ import {
 } from "vuex-module-decorators";
 import { ClientManager } from "$api_model/ClientManager";
 import store from "@/store";
-import { uiSmLoginResponese } from "$api_bean/uiSmLoginResponese";
-import { SdjsPerson } from "$api_bean/SdjsPerson";
-import { SdjsBuildSite } from "$api_bean/SdjsBuildSite";
+import { uiSmLoginResponese } from "$api_bean/web/uiSmLoginResponese";
+import { SdjsBuildSite } from "$api_bean/web/SdjsBuildSite";
+import { SdjsPerson } from "$api_bean/web/SdjsPerson";
 
 const clientManager = ClientManager.getInstance();
 

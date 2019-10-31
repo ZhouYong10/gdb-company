@@ -80,8 +80,8 @@
 import FmSearchList from "@/components/FmSearchList/index.vue";
 import { Vue, Component } from "vue-property-decorator";
 import { AppModule } from "@/store/modules/app";
-import { uiSmLoginResponese } from "$api_bean/uiSmLoginResponese";
-import { SdjsBuildSite } from "$api_bean/SdjsBuildSite";
+import {uiSmLoginResponese} from "$api_bean/web/uiSmLoginResponese";
+import {SdjsBuildSite} from "$api_bean/web/SdjsBuildSite";
 
 console.log(AppModule.currentCompany, " currentCompany=====================");
 @Component({

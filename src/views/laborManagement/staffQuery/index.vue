@@ -37,14 +37,7 @@
           :items="professionList.items"
           v-model="professionSelected"
         />
-        <div class="age-select-range">
-          <fm-radio-list
-            :title="ageList.title"
-            :items="ageList.items"
-            v-model="ageSelected"
-          />
-          <fm-range-select />
-        </div>
+        <fm-age-select-range @selected="ageSelected"/>
       </div>
     </el-main>
   </div>
@@ -56,9 +49,11 @@ import { AppModule } from "@/store/modules/app";
 import FmBreadcrumb from "@/components/FmBreadcrumb/index.vue";
 import FmRadioList from "@/components/FmRadioList/index.vue";
 import FmRangeSelect from "@/components/FmRangeSelect/index.vue";
+import FmAgeSelectRange from "@/components/FmAgeSelectRange/index.vue";
 
 @Component({
   components: {
+    FmAgeSelectRange,
     FmRangeSelect,
     FmBreadcrumb,
     FmRadioList
@@ -73,7 +68,7 @@ export default class extends Vue {
   }
   /*选择的项目(即工地)*/
   site = "";
-  /*输入的姓名或身份证*/
+  /*当前输入的姓名或身份证*/
   nameOrId = "";
   /*当前选中的工种*/
   professionSelected = { name: "不限", id: "0" };
@@ -114,18 +109,10 @@ export default class extends Vue {
     ]
   };
   /*当前选中的年龄段*/
-  ageSelected = { name: "不限", id: "0" };
-  /*年龄列表*/
-  ageList = {
-    title: "年龄",
-    items: [
-      { name: "不限", id: "0" },
-      { name: "18-35岁", id: "1" },
-      { name: "36-45岁", id: "2" },
-      { name: "46-55岁", id: "3" },
-      { name: "56岁以上", id: "4" }
-    ]
-  };
+  ageSelected(val) {
+    console.log(val, ' hello ==========')
+  }
+
 }
 </script>
 
@@ -141,7 +128,5 @@ export default class extends Vue {
     display inline-block
     padding 0 32px 0 12px
     font-weight 400
-.age-select-range
-  display flex
-  align-items center
+
 </style>

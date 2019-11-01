@@ -1,6 +1,6 @@
 <template>
   <router-link class="more-details" :to="path">
-    详情
+    {{ text }}
     <i class="el-icon-d-arrow-right"></i>
   </router-link>
 </template>
@@ -12,6 +12,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 })
 export default class FmMoreDetails extends Vue {
   @Prop({ type: String, required: true }) readonly path!: string;
+  @Prop({ type: String, default: "详情" }) readonly text?: string;
 }
 </script>
 

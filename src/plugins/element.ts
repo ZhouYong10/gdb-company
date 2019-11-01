@@ -34,8 +34,14 @@ import {
   RadioButton,
   Radio,
   InputNumber,
+  Dialog,
+  Form,
+  FormItem
 } from "element-ui";
 
+Vue.use(FormItem);
+Vue.use(Form);
+Vue.use(Dialog);
 Vue.use(InputNumber);
 Vue.use(Radio);
 Vue.use(RadioGroup);

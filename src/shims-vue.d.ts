@@ -6,3 +6,4 @@ declare module "*.vue" {
 declare module "vue-seamless-scroll";
 
 declare module "vue-echarts";
+declare module "vue-progress-circle";

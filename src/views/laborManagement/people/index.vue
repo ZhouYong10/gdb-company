@@ -6,7 +6,10 @@
       <!--人员录入概况-->
       <fm-title-container class="general-info-box" title="">
         <template v-slot:header>
-          <fm-more-details class="more-details" path="/laborManagement/people/briefDetails" />
+          <fm-more-details
+            class="more-details"
+            path="/laborManagement/people/briefDetails"
+          />
         </template>
         <template v-slot:content>
           <el-row class="general-situation-box" type="flex" align="middle">

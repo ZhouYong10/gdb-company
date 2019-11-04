@@ -59,6 +59,16 @@ const routes: Array<RouteConfig> = [
       teamId: route.params.teamId,
       teamName: route.query.team
     })
+  },
+  {
+    path: "laborManagement/jobEvaluation/areaDetails",
+    component: () => import("@/views/laborManagement/jobEvaluation/areaDetails.vue"),
+    meta: { title: "地域分析详情" }
+  },
+  {
+    path: "laborManagement/jobEvaluation/nationDetails",
+    component: () => import("@/views/laborManagement/jobEvaluation/nationDetails.vue"),
+    meta: { title: "民族分析详情" }
   }
 ];
 

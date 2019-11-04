@@ -71,54 +71,86 @@
     <!--显示设备信息的弹窗-->
     <el-dialog
       title="设备信息"
+      class="dialog-equipment-info"
+      width="fit-content"
       :center="true"
-      :visible.sync="dEquipInfoVisible">
-      <el-form :inline="true" :model="dEquipInfoModel" :rules="dEquipInfoRules" ref="dEquipInfo" label-width="120px" >
-        <h5>设备信息</h5>
+      :visible.sync="dEquipInfoVisible"
+    >
+      <el-form
+        :inline="true"
+        :model="dEquipInfoModel"
+        :rules="dEquipInfoRules"
+        size="mini"
+        ref="dEquipInfo"
+        label-width="120px"
+      >
+        <h4 class="inline-title">设备信息</h4>
         <el-form-item label="设备所在项目: ">
-          <span>{{dEquipInfoModel.site}}</span>
+          <span class="plain-text">{{ dEquipInfoModel.site }}</span>
         </el-form-item>
         <el-form-item label="设备所在地: ">
-          <span>{{dEquipInfoModel.local}}</span>
+          <span class="plain-text">{{ dEquipInfoModel.local }}</span>
         </el-form-item>
-        <h5>设备管理员信息</h5>
+        <h4 class="inline-title">设备管理员信息</h4>
         <el-form-item label="设备管理人员" prop="name">
-          <el-input v-model="dEquipInfoModel.name"></el-input>
+          <el-input v-model="dEquipInfoModel.manager"></el-input>
         </el-form-item>
         <el-form-item label="责任人电话" prop="phone">
-          <el-input v-model="dEquipInfoModel.phone"></el-input>
+          <el-input v-model="dEquipInfoModel.managerPhone"></el-input>
         </el-form-item>
-        <h5>设备供应商信息</h5>
+        <h4 class="inline-title">设备供应商信息</h4>
         <el-form-item label="设备供应商" prop="provider">
           <el-input v-model="dEquipInfoModel.provider"></el-input>
         </el-form-item>
         <el-form-item label="联系人员" prop="linkman">
-          <el-input v-model="dEquipInfoModel.linkman"></el-input>
+          <el-input v-model="dEquipInfoModel.providerName"></el-input>
         </el-form-item>
         <el-form-item label="联系电话" prop="linkPhone">
-          <el-input v-model="dEquipInfoModel.linkPhone"></el-input>
+          <el-input v-model="dEquipInfoModel.providerPhone"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="small">取消</el-button>
-        <el-button size="small" type="primary" >保存</el-button>
+        <el-button size="small" type="primary" @click="dEquipInfoSave">保存</el-button>
+        <el-button size="small" @click="dEquipInfoCancle">取消</el-button>
       </span>
     </el-dialog>
     <!--增加接入平台的弹窗-->
     <el-dialog
       title="增加接入平台"
+      class="dialog-add-platform"
       :center="true"
       :visible.sync="dAddEquipVisible"
-      width="30%">
-      <span>请填写系统已接入的平台,如: 成都市建委</span>
-      <el-form :model="dAddEquipModel" :rules="dAddEquipRules" ref="dAddEquip" label-width="100px" >
-        <el-form-item label="平台名称" prop="name">
-          <el-input v-model="dAddEquipModel.name"></el-input>
+      width="30%"
+    >
+      <h4 style="margin: 8px 0 12px 0;">
+        请填写系统已接入的平台,如: 成都市建委
+      </h4>
+      <el-form
+        :model="dAddEquipModel"
+        size="mini"
+        ref="dAddEquip"
+        label-width="100px"
+      >
+        <el-form-item
+          v-for="(plat, index) in dAddEquipModel.platforms"
+          :key="index"
+          :label="`平台名称${index+1}`"
+          :prop="`platforms.${index}.value`"
+          :rules="[
+            { required: true, message: '平台名称不能为空!', trigger: 'blur' },
+            { max: 10, message: '输入最大不能超过10个字符!', trigger: ['blur', 'change']}
+          ]"
+        >
+          <el-input v-model="plat.value"></el-input>
+          <el-button size="mini" @click.stop.prevent="removePlat(plat)" v-if="index !== 0">删除</el-button>
         </el-form-item>
+        <div class="new-platform-input">
+          <el-button size="mini" @click.stop.prevent="addPlat">新增平台</el-button>
+        </div>
       </el-form>
       <span slot="footer">
-        <el-button size="small">取消</el-button>
-        <el-button size="small" type="primary" >保存</el-button>
+        <el-button size="small" type="primary" @click="dAddEquipSave">保存</el-button>
+        <el-button size="small" @click="dAddEquipCancle">取消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -135,6 +167,7 @@ import "echarts/lib/chart/pie";
 import "echarts/lib/chart/bar";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/legend";
+import fa from "element-ui/src/locale/lang/fa";
 
 @Component({
   components: {
@@ -268,18 +301,75 @@ export default class extends Vue {
     }
   ];
 
+  /*显示/修改设备信息弹框*/
   dEquipInfoVisible = false;
-  dEquipInfoModel = {site: "A2项目J2标段", local: "成都市",name: "", phone: "", provider: "", linkman: "", linkPhone: ""};
-  dEquipInfoRules = {};
-  dAddEquipVisible = false;
-  dAddEquipModel = {name: ""};
-  dAddEquipRules = {};
+  dEquipInfoModel = {
+    site: "A2项目J2标段",
+    local: "成都市",
+    manager: "",
+    managerPhone: "",
+    provider: "",
+    providerName: "",
+    providerPhone: ""
+  };
+  dEquipInfoRules = {
+
+  };
   showEquipmentInfo(row) {
     this.dEquipInfoVisible = true;
   }
 
+  dEquipInfoSave() {
+    (this.$refs.dEquipInfo as any).validate(valid => {
+      if (valid) {
+        console.log("设备信息表单可以提交了");
+      }else{
+        return false;
+      }
+    });
+  }
+
+  dEquipInfoCancle() {
+    this.dEquipInfoVisible = false;
+  }
+
+  /*显示/添加接入平台弹框*/
+  dAddEquipVisible = false;
+  dAddEquipId = 0;
+  dAddEquipModel = {
+    platforms: []
+  };
   addPlatform(row) {
+    const platforms = row.platform.split(" ");
+    this.dAddEquipId = platforms.length;
+    this.dAddEquipModel.platforms = platforms.map((platform, index) =>({id: ++index, value: platform}));
     this.dAddEquipVisible = true;
+  }
+  removePlat(plat){
+    let index = this.dAddEquipModel.platforms.findIndex(platform => {
+      return platform.id === plat.id;
+    });
+    if (index !== -1) {
+      this.dAddEquipModel.platforms.splice(index, 1);
+    }
+  }
+
+  addPlat() {
+    this.dAddEquipModel.platforms.push({ id: ++(this.dAddEquipId), value: "" });
+  }
+
+  dAddEquipSave() {
+    (this.$refs.dAddEquip as any).validate(valid => {
+      if (valid) {
+        console.log("表单可以提交了");
+      }else{
+        return false;
+      }
+    });
+  }
+
+  dAddEquipCancle() {
+    this.dAddEquipVisible = false;
   }
 }
 </script>
@@ -290,4 +380,13 @@ export default class extends Vue {
   width 100%
 .equipment-info-table
   margin-top 16px
+.dialog-equipment-info
+  .inline-title
+    margin 8px
+  .plain-text
+    font-weight bold
+.dialog-add-platform
+  .new-platform-input
+    display flex
+    justify-content flex-end
 </style>
